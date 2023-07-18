@@ -1,0 +1,9 @@
+<h1>Pagina del carrito</h1>
+{{#if cart}}
+    <h2>Productos del carrito</h2>
+    {{#each productsId}}
+        <p>{{this.productId.title}}</p>
+    {{/each}}
+{{else}}
+    <p>Este carrito no existe</p>
+{{/if}}

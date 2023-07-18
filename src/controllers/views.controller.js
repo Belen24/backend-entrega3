@@ -1,3 +1,5 @@
+import { ProductsService } from "../services/products.service.js";
+
 export class ViewsController{
     static renderHome = (req,res)=>{
         res.render("home");
@@ -15,4 +17,6 @@ export class ViewsController{
         // console.log(req.user);
         res.render("profile",{user:req.user});
     };
+
+    
 }

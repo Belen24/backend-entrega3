@@ -9,5 +9,9 @@ export const config = {
     },
     mongo:{
         url:process.env.MONGO_URL
+    },
+    gmail:{
+        marketingEmail:process.env.MARKETING_EMAIL,
+        password:process.env.GMAIL_PASSWORD
     }
-}
+};

@@ -4,7 +4,8 @@ export class ProductsController{
     static getProducts = async(req,res)=>{
         try {
             const products = await ProductsService.getProducts();
-            res.json({status:"success", data:products});
+            //res.json({status:"success", data:products});
+            res.render("products", { email: req.user.email, products: products });
         } catch (error) {
             res.json({status:"error", message:error.message});
         }

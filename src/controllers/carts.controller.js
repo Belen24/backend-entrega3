@@ -1,4 +1,5 @@
 import { CartsService } from "../services/carts.service.js";
+import { ProductsService } from "../services/products.service.js";
 
 export class CartsController{
     static createCart = async(req,res)=>{
@@ -10,6 +11,38 @@ export class CartsController{
         }
     };
 
+    static get = async (req,res)=>{
+        try {
+            const getCart = await CartsService.get(cartId);
+            res.json ({status:"success", data:getCart})
+        } catch (error) {
+            throw new Error(`Error al visualizar el carrito ${error.message}`);
+        }
+    };
+
+    
+    static getCartById = async(req,res)=>{
+        try {
+            const {id} = req.params;
+            const cartById = await CartsService.getCartById(id);
+            //res.json({status:"success",data:cartById});
+            res.render("carts", { cart: cartById });
+        } catch (error) {
+            res.json({status:"error", message:error.message});
+        }
+    };
+
+    static async renderCart(req, res) {
+        try {
+          const { id } = req.params;
+          const cartById = await CartsService.getCartById(id);
+          console.log(cartById);
+          res.render("carts", { cart: cartById });
+        } catch (error) {
+          res.status(500).send("Error al renderizar la vista del carrito");
+        }
+      };
+
     static addProduct = async(req,res)=>{
         try {
             const {cid, pid} = req.params;
@@ -19,26 +52,17 @@ export class CartsController{
             res.json({status:"error", message:error.message});
         }
     };
-
+    
     static purchase = async(req,res)=>{
         try {
-            const cartId= req.params.cid;
-            const productsAproved=[];
-            const productsRejected=[];
-            //verificar que el carrito exista
-            // const cart = cartService ...
-            // if(cart.products.length){
-                // for(let i=0;i<cart.products.length;i++){
-                    // const productCart = cart.products[i];
-                    // const productDB = productService ...
-                    //comparacion cantidad y stock
-                // }
-            // res.json({status:"success", data:ticketCreated});
-            // } else {
-                //el carrito no tiene productos
-            // }
+            const {cid} = req.params;
+            const cartPurchase = await CartsService.purchase(cid);
+            res.json({status:"success",data:cartPurchase});
         } catch (error) {
             res.json({status:"error", message:error.message});
         }
     };
+
+    
+    
 }

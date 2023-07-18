@@ -8,11 +8,14 @@ import passport from "passport";
 import { initPassport } from "./config/passport.config.js";
 import {config} from "./config/config.js";
 import cors from "cors";
+//import { transporter } from "./config/email.js";
 
 import { viewsRouter } from "./routes/views.routes.js";
 import { sessionsRouter } from "./routes/sessions.routes.js";
 import {productsRouter} from "./routes/products.routes.js";
 import {cartsRouter} from "./routes/carts.routes.js";
+import { emailRouter } from "./routes/email.routes.js";
+
 
 const port = config.server.port;
 const app =express();
@@ -20,6 +23,7 @@ const app =express();
 //middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+app.use(express.static(path.join(__dirname,"/public")));
 app.use(cors());
 
 app.listen(port,()=>console.log(`Server listening on port ${port}`));
@@ -49,3 +53,34 @@ app.use(viewsRouter);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
+app.use("/email-coder", emailRouter);
+
+/*const emailTemplate = `<div>
+        <h1>Bienvenido!!</h1>
+        <img src="https://fs-prod-cdn.nintendo-europe.com/media/images/10_share_images/portals_3/2x1_SuperMarioHub.jpg" style="width:250px"/>
+        <p>Ya puedes empezar a usar nuestros servicios</p>
+        <a href="https://www.google.com/">Explorar</a>
+</div>`;
+
+
+//Definir la estructura del correo
+const mailOptions = {
+    from:"ecommerce",
+    to:"bgutierrez.mil@gmail.com",
+    subject:"Registro exitoso con imagen",
+    html:emailTemplate,
+    
+};
+
+//ruta para enviar el correo
+app.post("/email-coder",async(req,res)=>{
+    try{
+        //usar el transports con la estructura del correo
+        const info = await transporter.sendMail(mailOptions);
+        console.log("info: ", info);
+        res.json({status:"success", message:`Correo enviado a ${mailOptions.to}`});
+    }catch(error){
+        console.log(error.message);
+        res.json({status:"error", message:"hubo un error al enviar el correo"});
+    }
+});*/

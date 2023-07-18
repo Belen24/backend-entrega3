@@ -9,5 +9,6 @@ router.get("/login", showAuthView, ViewsController.renderLogin);
 router.get("/signup", showAuthView, ViewsController.renderSignup);
 router.get("/profile", checkUserAuthenticatedView , ViewsController.renderProfile);
 router.get("/current", checkUserAuthenticatedView, ViewsController.renderProfile);
+//router.get("/products", checkUserAuthenticatedView, ViewsController.renderProducts);
 
 export {router as viewsRouter};
