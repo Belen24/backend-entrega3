@@ -1,6 +1,6 @@
-import { ProductsService } from "../../services/products.service.js";
+
 import { cartsModel } from "../models/carts.model.js";
-import { productsModel } from "../models/products.model.js";
+
 import { ticketsModel } from "../models/tickets.model.js";
 
 export class CartsMongo{

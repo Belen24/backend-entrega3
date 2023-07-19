@@ -9,4 +9,4 @@ export const createHash = (password)=>{
 
 export const validPassword = (password,user)=>{
     return bcrypt.compareSync(password,user.password);
-}
+};

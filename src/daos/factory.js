@@ -14,7 +14,7 @@ switch (PERSISTENCE) {
         connectDB();
         const {CartsMongo} = await import("./mongo/carts.mongo.js");
         const {ProductsMongo} = await import("./mongo/products.mongo.js");
-        const {UserMongo} = await import ("./mongo/users.mongo.js")
+        const {UserMongo} = await import ("./mongo/users.mongo.js");
         cartsDao = new CartsMongo();
         productsDao = new ProductsMongo();
         usersDao = new UserMongo ();
@@ -22,7 +22,7 @@ switch (PERSISTENCE) {
 
     case "memory":
         const {CartFiles} = await import("./memory/carts.memory.js");
-        const {ProductsFiles} = await import ("./memory/products.memory.js")
+        const {ProductsFiles} = await import ("./memory/products.memory.js");
         cartsDao = new CartFiles();
         productsDao = new ProductsFiles();
         break;
