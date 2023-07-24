@@ -55,6 +55,8 @@ app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/email-coder", emailRouter);
 
+prueba
+
 /*const emailTemplate = `<div>
         <h1>Bienvenido!!</h1>
         <img src="https://fs-prod-cdn.nintendo-europe.com/media/images/10_share_images/portals_3/2x1_SuperMarioHub.jpg" style="width:250px"/>
