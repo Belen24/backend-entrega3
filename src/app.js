@@ -55,7 +55,7 @@ app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/email-coder", emailRouter);
 
-prueba
+
 
 /*const emailTemplate = `<div>
         <h1>Bienvenido!!</h1>
