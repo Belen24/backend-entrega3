@@ -1,6 +1,5 @@
-
 import { cartsModel } from "../models/carts.model.js";
-
+import { productsModel } from "../models/products.model.js";
 import { ticketsModel } from "../models/tickets.model.js";
 
 export class CartsMongo{
@@ -91,9 +90,10 @@ export class CartsMongo{
        try {
         const productsApproved = [];
         const productsRejected = [];
+        let fullPurchase = 0;
   
         // Verificar que el carrito exista 
-        const cart = await this.get(cid);
+        const cart = await this.getCartById(cid);
         //console.log("cart", cart);
             if (!cart) {
             throw new Error('El carrito no existe');
@@ -103,29 +103,37 @@ export class CartsMongo{
             }else{
                 for (let i=0; i <cart.products.length; i++){
                     const productCart = cart.products[i]._id;
-                    const productDB = await productManager.getProductById(productCart);
-                    let Comparison = parseInt(productDB.stock) - cart.products[i].quantity;
+                    //console.log (productCart);
+                    const productDB = await productsModel.findById(productCart);
+                    console.log(productDB);
+                    let comparison = parseInt(productDB.stock) - cart.products[i].quantity;
+                    
 
-                    if (Comparison >=0){
+                    if (comparison >=0){
                         productsApproved.push(cart.products[i]);
-                        Fullpurchase = productDB.price * cart.product[i].quantity
+                        fullPurchase = productDB.price * cart.products[i].quantity;
+                        
                         
                     }else{
                         productsRejected.push(cart.products[i]);
-                    }
+                    };
+                };
 
-                    if(productsApproved >0 && productsRejected == 0){
-                        const ticketData = cart(cid)
+                console.log("Productos aprobados: ", productsApproved);
+                    console.log ("Productos rechazados: ", productsRejected);
+
+                    if(productsApproved.length >0 && productsRejected.length === 0){
+                        const ticketData = cart;
                         const ticketCreated = await ticketsModel.create(ticketData);
-                        return { ticket: ticketCreated };
+                        return { ticket: ticketCreated, total: fullPurchase };
                     }else if (productsApproved >0 && productsRejected >= 0){
-                        "Hay productos que no cuentan con el stock suficiente para generar tu compra"
+                        throw new Error ('Hay productos que no cuentan con el stock suficiente para generar tu compra');
+                    }else {
+                        throw new Error('No hay productos aprobados para generar la compra');
                     }
-
-                }
             }
        }catch (error) {
-        
+         throw new Error(`Error al procesar la compra ${error.message}`);
        }
       }
     
@@ -133,3 +141,7 @@ export class CartsMongo{
     
 
 };
+
+    
+      
+    

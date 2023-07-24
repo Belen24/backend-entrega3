@@ -8,6 +8,7 @@ import passport from "passport";
 import { initPassport } from "./config/passport.config.js";
 import {config} from "./config/config.js";
 import cors from "cors";
+import { errorHandler } from "./middlewares/errorHandler.js";
 //import { transporter } from "./config/email.js";
 
 import { viewsRouter } from "./routes/views.routes.js";
@@ -15,6 +16,7 @@ import { sessionsRouter } from "./routes/sessions.routes.js";
 import {productsRouter} from "./routes/products.routes.js";
 import {cartsRouter} from "./routes/carts.routes.js";
 import { emailRouter } from "./routes/email.routes.js";
+import { mockingproductsRouter } from "./routes/mockingproducts.routes.js";
 
 
 const port = config.server.port;
@@ -54,6 +56,9 @@ app.use("/api/sessions", sessionsRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/email-coder", emailRouter);
+app.use ("/api/mockingproducts", mockingproductsRouter);
+app.use (errorHandler);
+
 
 
 
