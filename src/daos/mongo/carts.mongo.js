@@ -1,6 +1,7 @@
 import { cartsModel } from "../models/carts.model.js";
 import { productsModel } from "../models/products.model.js";
 import { ticketsModel } from "../models/tickets.model.js";
+import { UserModel } from "../models/users.model.js";
 
 export class CartsMongo{
     constructor(){
@@ -86,6 +87,7 @@ export class CartsMongo{
         }
     };
 
+    
     async purchase(cid) {
        try {
         const productsApproved = [];
@@ -102,42 +104,88 @@ export class CartsMongo{
                 throw new Error('El carrito no tiene productos');
             }else{
                 for (let i=0; i <cart.products.length; i++){
-                    const productCart = cart.products[i]._id;
+                    const productCart = cart.products[i].productId._id;
                     //console.log (productCart);
                     const productDB = await productsModel.findById(productCart);
-                    console.log(productDB);
+                    //console.log(productDB);
                     let comparison = parseInt(productDB.stock) - cart.products[i].quantity;
+                    console.log(comparison);
                     
 
                     if (comparison >=0){
                         productsApproved.push(cart.products[i]);
-                        fullPurchase = productDB.price * cart.products[i].quantity;
-                        
+                        fullPurchase += productDB.price * cart.products[i].quantity;
+                        console.log(fullPurchase);
+
+                        productDB.stock = comparison;
+                        console.log(productDB);
+                        await productsModel.findByIdAndUpdate(productCart, { stock: comparison });
                         
                     }else{
-                        productsRejected.push(cart.products[i]);
+                        productsRejected.push(cart.products[i],);
                     };
                 };
 
-                console.log("Productos aprobados: ", productsApproved);
+                    console.log("Productos aprobados: ", productsApproved);
                     console.log ("Productos rechazados: ", productsRejected);
 
-                    if(productsApproved.length >0 && productsRejected.length === 0){
-                        const ticketData = cart;
+                    if (productsApproved.length > 0 && productsRejected.length === 0) {
+                        //const user = await UserModel.findOne(emailUser);
+                        const ticketData = {
+                            purchase_datetime: Date(),
+                            amount: fullPurchase,
+                            //purchaser: user.email
+                        };
+                
                         const ticketCreated = await ticketsModel.create(ticketData);
                         return { ticket: ticketCreated, total: fullPurchase };
-                    }else if (productsApproved >0 && productsRejected >= 0){
-                        throw new Error ('Hay productos que no cuentan con el stock suficiente para generar tu compra');
-                    }else {
+                    } else if (productsRejected.length > 0) {
+                        // Si hay productos rechazados
+                        throw new Error('Hay productos que no cuentan con el stock suficiente para generar tu compra');
+                    } else {
+                        // Si no hay productos rechazados y no hay productos aprobados
                         throw new Error('No hay productos aprobados para generar la compra');
                     }
             }
        }catch (error) {
          throw new Error(`Error al procesar la compra ${error.message}`);
        }
-      }
+    };
     
-      
+    /*async deleteCart(cid){
+        try {
+            await this.model.findByIdAndDelete(cid);
+            return {message: "Carrito eliminado"};
+        } catch (error) {
+            throw new Error(`Error al eliminar el carrito ${error.message}`);
+        }
+    
+    };*/
+
+    
+
+    /*async updateCart(cartId, productId, quantity){
+        try {
+            const cart = await this.model.findById(cartId);
+            if (!cart) {
+              throw new Error("El carrito no existe");
+            }
+        
+            const product = cart.products.find(
+              (product) => product._id.toString() === productId.toString()
+            );
+            if (!product) {
+              throw new Error("El producto no existe en el carrito");
+            }
+        
+            product.quantity = quantity;
+            await cart.save();
+        
+            return cart;
+        } catch (error) {
+            throw new Error(`Error al actualizar el carrito ${error.message}`);
+        }
+    }; */ 
     
 
 };

@@ -83,6 +83,15 @@ export class CartsController{
         }
     };
 
+    static deleteProduct = async (req, res) =>{
+        try {
+            const {cid, pid} = req.params;
+            const productDelete = await CartsService.deleteProduct(cid, pid);
+            res.json({status:"success",data:productDelete});
+        } catch (error) {
+            res.json({status:"error", message:error.message});
+        }
+    }
     
     
 }

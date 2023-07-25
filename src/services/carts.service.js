@@ -16,6 +16,10 @@ export class CartsService{
     static async purchase(cid){
         return cartsDao.purchase(cid);
     };
+
+    static async deleteProduct(cid, pid){
+        return cartsDao.deleteProduct(cid, pid);
+    };
     
 
     
