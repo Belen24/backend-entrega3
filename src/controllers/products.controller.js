@@ -1,3 +1,6 @@
+import { CustomError } from "../services/error/customError.service.js";
+import { EError } from "../enums/EError.js";
+import { generateProductError } from "../services/error/productError.service.js";
 import { ProductsService } from "../services/products.service.js";
 
 export class ProductsController{
@@ -24,6 +27,14 @@ export class ProductsController{
     static createProduct = async(req,res)=>{
         try {
             const productInfo = req.body;
+            if(!productInfo){
+                CustomError.createError({
+                    name:"Error al crear el producto",
+                    cause:generateProductError(req.body),
+                    message:"Hubo un error al crear el usuario",
+                    errorCode:EError.INVALID_JSON
+                });
+            }
             const productCreated = await ProductsService.createProduct(productInfo);
             res.json({status:"success", data:productCreated});
         } catch (error) {

@@ -5,6 +5,12 @@ export const errorHandler = (error, req,res,next) => {
         case EError.DATABASE_ERROR:
             res.json ({status:"error", message:error.cause, errorMessage:error.message});
             break;
+            case EError.INVALID_PARAMS:
+            res.json({status:"error",message:error.cause, errorMessage:error.message});
+            break;
+            case EError.INVALID_JSON:
+            res.json({status:"error",message:error.cause});
+            break;
       
         default:
             break;

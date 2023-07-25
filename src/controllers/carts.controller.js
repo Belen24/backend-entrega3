@@ -43,13 +43,13 @@ export class CartsController{
         try {
           const { id } = req.params;
           if(!id || id.trim() === ""){
-            throw new Error("El parámetro 'id' no se envió o no es válido.");
-            /*CustomError.createError({
+            //throw new Error("El parámetro 'id' no se envió o no es válido.");
+            CustomError.createError({
                 name: "Error id carrito",
                 cause: generateCartErrorParams(id),
                 message: "Error obteniendo el carrito",
                 errorCode: EError.INVALID_PARAMS,
-            });*/
+            });
         } 
           const cartById = await CartsService.getCartById(id);
           console.log(cartById);
