@@ -6,7 +6,7 @@ const router = Router();
 //creacion del cuerpo del correo
 const emailTemplate = `<div>
         <h1>Bienvenido!!</h1>
-        <img src="https://fs-prod-cdn.nintendo-europe.com/media/images/10_share_images/portals_3/2x1_SuperMarioHub.jpg" style="width:250px"/>
+        <img src="https://t4.ftcdn.net/jpg/02/59/09/37/360_F_259093785_4xKtZVIi2LgS7hIz8WZ9B9qQmdwDpFyk.jpg" style="width:250px"/>
         <p>Ya puedes empezar a usar nuestros servicios</p>
         <a href="https://www.google.com/">Explorar</a>
 </div>`;
@@ -22,7 +22,7 @@ const mailOptions = {
 };
 
 //ruta para enviar el correo
-router.post("/api/email-coder",async(req,res)=>{
+router.post("/",async(req,res)=>{
     try{
         //usar el transports con la estructura del correo
         const info = await transporter.sendMail(mailOptions);

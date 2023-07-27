@@ -4,6 +4,15 @@ export class UserMongo{
     constructor(){
         this.model=UserModel;
     };
+    
+    async get(){
+        try {
+            const user = await this.model.find();
+            return user;
+        } catch (error) {
+            throw new Error ("No se pudieron obtener los Usuarios");
+        }
+    };
 
     async getUserByEmail(emailUser){
         try {

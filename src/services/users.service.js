@@ -1,6 +1,10 @@
 import { usersDao } from "../daos/factory.js";
 
 export class UsersService{
+    static async get(){
+        return usersDao.get();
+    };
+
     static async getUserByEmail(email){
         return usersDao.getUserByEmail(email);
     };

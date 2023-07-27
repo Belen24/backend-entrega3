@@ -17,6 +17,7 @@ import {productsRouter} from "./routes/products.routes.js";
 import {cartsRouter} from "./routes/carts.routes.js";
 import { emailRouter } from "./routes/email.routes.js";
 import { mockingproductsRouter } from "./routes/mockingproducts.routes.js";
+import { userRouter } from "./routes/user.routes.js";
 
 
 const port = config.server.port;
@@ -57,6 +58,7 @@ app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/email-coder", emailRouter);
 app.use ("/api/mockingproducts", mockingproductsRouter);
+app.use ("/api/user", userRouter);
 app.use (errorHandler);
 
 
@@ -64,7 +66,7 @@ app.use (errorHandler);
 
 /*const emailTemplate = `<div>
         <h1>Bienvenido!!</h1>
-        <img src="https://fs-prod-cdn.nintendo-europe.com/media/images/10_share_images/portals_3/2x1_SuperMarioHub.jpg" style="width:250px"/>
+        <img src="https://t4.ftcdn.net/jpg/02/59/09/37/360_F_259093785_4xKtZVIi2LgS7hIz8WZ9B9qQmdwDpFyk.jpg" style="width:250px"/>
         <p>Ya puedes empezar a usar nuestros servicios</p>
         <a href="https://www.google.com/">Explorar</a>
 </div>`;
