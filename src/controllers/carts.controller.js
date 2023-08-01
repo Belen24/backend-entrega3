@@ -54,8 +54,8 @@ export class CartsController{
           const cartById = await CartsService.getCartById(id);
           console.log(cartById);
          
-          //res.render("carts", { cart: cartById });
-          res.json({status:"success",data:cartById});
+          res.render("carts", { cart: cartById });
+          //res.json({status:"success",data:cartById});
         } catch (error) {
           //res.status(500).send("Error al renderizar la vista del carrito");
           res.json({ status: "error", message: error.message });

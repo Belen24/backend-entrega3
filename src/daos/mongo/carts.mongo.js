@@ -88,7 +88,7 @@ export class CartsMongo{
     };
 
     
-    async purchase(cid) {
+    async purchase(cid, email) {
        try {
         const productsApproved = [];
         const productsRejected = [];
@@ -130,11 +130,11 @@ export class CartsMongo{
                     console.log ("Productos rechazados: ", productsRejected);
 
                     if (productsApproved.length > 0 && productsRejected.length === 0) {
-                        //const user = await UserModel.findOne(emailUser);
+                        const user = await UserModel.findById(email);
                         const ticketData = {
                             purchase_datetime: Date(),
                             amount: fullPurchase,
-                            //purchaser: user.email
+                            purchaser: user
                         };
                 
                         const ticketCreated = await ticketsModel.create(ticketData);
